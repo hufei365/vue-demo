@@ -103,5 +103,58 @@
     </script>
 
 
+
+
+    <script type="text/javascript">
+      var data = { a: 1 }
+      var vm = new Vue({
+        //el: '#example',
+        data: data,
+        created: function () {
+           // `this` 指向 vm 实例
+           console.log('a is: ' + this.a)
+       },
+       mounted: function(){
+         console.log('this Vue instance is mounted!!!!');
+       }
+      });
+      vm.$data === data // -> true
+      vm.$el === document.getElementById('example') // -> true
+      // $watch 是一个实例方法
+      vm.$watch('a', function (newVal, oldVal) {
+        // 这个回调将在 `vm.a`  改变后调用
+        console.log('old Value is : ' + oldVal)
+        console.log('new Value is : ' + newVal)
+      });
+
+      // $mount 挂载方法
+      var divObj = document.createElement('div');
+          divObj.innerHTML = "{{a}}";
+          divObj.id = 'example';
+      document.body.appendChild(divObj);
+      vm.$mount('#example');
+
+
+    </script>
+
+
+    <div class="template-1">
+      <div>sdlfjdlkasfjdlsfjdlksfjd</div>
+      {{a}}
+    </div>
+    <script type="text/javascript">
+    // test template option
+
+    var templat1 = new Vue({
+      el: '.template-1',
+      data: {
+        a:'template data is me!!!!'
+      },
+      template: '<div> template is me :  {{a}}</div>'
+    });
+
+    </script>
+
+
   </body>
 </html>

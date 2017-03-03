@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Vue——Class and Style</title>
+    <script type="text/javascript" src="vue.js"></script>
+  </head>
+  <body>
+
+
+    <style type="text/css">
+
+
+      .active{
+        color: green;
+      }
+      .static{
+        font-size: 24px;
+      }
+      .text-danger{
+        color: red !important;
+      }
+    </style>
+    <div class="bind-class">
+      <div v-bind:class="{ active: isActive }">aaa</div>
+
+      <div class="static"
+           v-bind:class="{ active: isActive, 'text-danger': hasError }">bbbb
+      </div>
+    </div>
+    <script type="text/javascript">
+      var  class1 = new Vue({
+        el: '.bind-class',
+        data: {
+          isActive: true,
+          hasError: false
+        }
+      })
+    </script>
+
+
+    <div class="classObject">
+      <div v-bind:class="classObject1">
+        shuizhidaomne
+        <p>{{classObject1.whatever}}</p>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var classObject = new Vue({
+        el:　'.classObject',
+        data: {
+          classObject1:{
+            active: true,
+            whatever: true,
+            'text-danger': true
+          }
+        }
+      });
+    </script>
+
+
+    <div class="arrayClass">
+      <div v-bind:class="[isActive ? activeClass:'', errorClass]">hahahah</div>
+      <div v-bind:class="[{ isActive : activeClass }, errorClass]">seconde hashshh sdfjdlks</div>
+    </div>
+    <script type="text/javascript">
+      var arrayClass = new Vue({
+        el: '.arrayClass',
+        data: {
+          isActive: true,
+          activeClass:'active',
+          errorClass: 'text-danger'
+        }
+      });
+    </script>
+
+
+    <div class="bind-style">
+      <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">分散方式</div>
+      <div v-bind:style="styleObject">样式对象</div>
+    </div>
+    <script type="text/javascript">
+      var bindStyle = new Vue({
+        el: '.bind-style',
+        data:{
+          activeColor:'yellow',
+          fontSize:48,
+          styleObject: {
+            color:'gray',
+            fontSize:'48px'
+          }
+        }
+      });
+    </script>
+
+    <div class="arrayStyle">
+      <div v-bind:style="[baseStyles, overridingStyles, secondOverringStyles]">数组样式</div>
+    </div>
+    <script type="text/javascript">
+      var arrayStyle1 = new Vue({
+        el: '.arrayStyle',
+        data: {
+          baseStyles: {
+            fontSize: '30px'
+          },
+          overridingStyles:{
+            fontSize:'20px',
+            color:'red'
+          },
+          secondOverringStyles: {
+            fontSize:'48px',
+            color:'black'
+          }
+
+        }
+      });
+    </script>
+
+  </body>
+</html>
