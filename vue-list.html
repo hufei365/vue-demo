@@ -39,5 +39,31 @@
       }
     });
   </script>
+
+  <div class="object-v-for">
+    <ul>
+      <li v-for="value in object">{{value}}</li>
+    </ul>
+    <ul>
+      <li v-for="( value, key) in object">{{key}} : {{value}}</li>
+    </ul>
+
+    <h3>整数迭代</h3>
+    <div>
+      <span v-for="n in 10">{{ n }}，</span>
+    </div>
+
+  </div>
+  <script type="text/javascript">
+    var vForObject = new Vue({
+      el:'.object-v-for',
+      data: {
+        object:{
+          key1: 'key one',
+          key2: 'key two'
+        }
+      }
+    });
+  </script>
   </body>
 </html>

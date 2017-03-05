@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>vue form</title>
+    <script type="text/javascript" src="vue.js"></script>
+  </head>
+  <body>
+
+    <div class="vue-form">
+
+      <input v-model="message" placeholder="edit me">
+      <p>Message is: {{ message }}</p>
+
+      <span>Multiline message is:</span>
+      <p style="white-space: pre">{{ message1 }}</p>
+        <br>
+      <textarea v-model="message1" placeholder="add multiple lines"></textarea>
+
+      <input type="checkbox" id="checkbox" v-model="checked">
+      <label for="checkbox">{{ checked ? 'OK' : 'NO' }}</label>
+
+      <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+      <label for="jack">Jack</label>
+      <input type="checkbox" id="john" value="John" v-model="checkedNames">
+      <label for="john">John</label>
+      <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+      <label for="mike">Mike</label>
+      <br>
+      <span>Checked names: {{ checkedNames }}</span>
+
+
+      <h3>## 单选按钮</h3>
+      <input type="radio" id="one" value="A" v-model="picked">
+      <label for="one">A</label>
+      <input type="radio" id="two" value="B" v-model="picked">
+      <label for="two">B</label>
+      <input type="radio" id="three" value="C" v-model="picked">
+      <label for="three">C</label>
+      <span>Picked: {{picked}}</span>
+
+
+      <h3>##选择列表</h3>
+      <select class="" v-model="selected" name="">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+      </select>
+      <span> Selected is : {{selected}}</span>
+
+      <select  v-model="mSelected" multiple>
+          <option value="A11">A11</option>
+          <option value="B11">B11</option>
+          <option value="C11">C11</option>
+      </select>
+      <span>Multiple selected: {{mSelected}}</span>
+
+      <h3>## 动态渲染</h3>
+      <select v-model="selected1">
+        <option v-for="option in options" v-bind:value="option.value">
+          {{ option.text}}
+        </option>
+      </select>
+      <span>select: {{selected1}}</span>
+
+
+
+      <h3>## 绑定value ————单选按钮</h3>
+      <input type="radio" v-model="pick" v-bind:value="a">
+
+
+
+
+    </div>
+    <script type="text/javascript">
+      var vueForm = new Vue({
+        el: '.vue-form',
+        data:{
+          message:'init value',
+          'message1':'mutiple lines',
+          checked:true,
+          checkedNames:[],
+          picked:'',
+          selected:'',
+          mSelected:[],
+          options:[
+            {value: 1, text:1}
+            ,{value: 2, text:2}
+            ,{value: 3, text:3}
+          ],
+          selected1:'',
+          pick:'',
+          a:'bind Radio Value'
+        }
+      });
+    </script>
+
+  </body>
+</html>
