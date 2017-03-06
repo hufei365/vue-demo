@@ -6,6 +6,137 @@
     <script type="text/javascript" src="vue.js"></script>
   </head>
   <body>
+    <div id="example">
+      <my-component></my-component>
+      <child message="hello!"></child>
+      <!-- kebab-case in HTML -->
+      <child1 my-message="hello!"></child1>
+
+
+
+    </div>
+
+
+      <script type="text/javascript">
+        // 注册
+        Vue.component('my-component', {
+          template: '<div>A custom component!</div>'
+        })
+
+        Vue.component('child', {
+          // 声明 props
+          props: ['message'],
+          // 就像 data 一样，prop 可以用在模板内
+          // 同样也可以在 vm 实例中像 “this.message” 这样使用
+          template: '<span>{{ message }}</span>'
+        })
+
+
+        Vue.component('child1', {
+          // camelCase in JavaScript
+          props: ['myMessage'],
+          template: '<span>{{ myMessage }}</span>'
+        })
+        // 创建根实例
+        new Vue({
+          el: '#example'
+        })
+      </script>
+
+      <div id="counter-event-example">
+        <p>{{ total }}</p>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+      </div>
+      <script type="text/javascript">
+      Vue.component('button-counter', {
+template: '<button v-on:click="increment">{{ counter }}</button>',
+data: function () {
+  return {
+    counter: 0
+  }
+},
+methods: {
+  increment: function () {
+    this.counter += 1
+    this.$emit('increment')
+  }
+},
+})
+new Vue({
+el: '#counter-event-example',
+data: {
+  total: 0
+},
+methods: {
+  incrementTotal: function () {
+    this.total += 1
+  }
+}
+})
+      </script>
+
+
+<template id="child2">
+  <div>
+  <h2>我是子组件的标题</h2>
+  <slot>
+    只有在没有要分发的内容时才会显示。
+  </slot>
+</div>
+</template>
+      <div id="single-slot">
+  <h1>我是父组件的标题</h1>
+  <child2>
+    <p>这是一些初始内容</p>
+    <p>这是更多的初始内容</p>
+  </child2>
+</div>
+
+<script type="text/javascript">
+  Vue.component('child2',{
+    template: '#child2',
+  });
+  var singleSlot = new Vue({
+    el: '#single-slot',
+    data: function(){
+      return {a:1}
+    }
+  });
+</script>
+
+<template id="app-layout">
+<div class="container">
+  <header>
+    <slot name="header"></slot>
+  </header>
+  <main>
+    <slot></slot>
+  </main>
+  <footer>
+    <slot name="footer"></slot>
+  </footer>
+</div>
+</template>
+<div class="app">
+  <app-layout>
+  <h1 slot="header">这里可能是一个页面标题</h1>
+  <p>主要内容的一个段落。</p>
+  <p>另一个主要段落。</p>
+  <p slot="footer">这里有一些联系信息</p>
+</app-layout>
+</div>
+<script type="text/javascript">
+  Vue.component('app-layout', {
+    template: '#app-layout'
+  });
+
+  var app = new Vue({
+    el: '.app'
+  });
+</script>
+
+
 
   </body>
 </html>
