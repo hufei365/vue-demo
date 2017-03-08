@@ -65,5 +65,98 @@
       }
     });
   </script>
+
+  <div class="listObject">
+    <ul>
+      <li v-for="item in list">
+        {{item}}
+      </li>
+    </ul>
+  </div>
+  <script type="text/javascript">
+    var demo = {
+      list: ['a', 'b', 'c'],
+      'a':{
+        text:'I am one'
+      },
+      'b':{
+        text:'I am two'
+      },
+      'c':{
+        text:'I am three'
+      }
+    };
+
+    var demoObject = new Vue({
+      el: '.listObject',
+      data:demo
+    });
+  </script>
+
+
+  <div class="testt">
+    <ol>
+      <li class="item"
+        v-for="item in list"
+        :id="item.id"
+        :type="type"
+        @click="itemClick"
+      >
+      <div class="fl">
+      <span v-if="type === 'quiz'">{{item.index}} </span>
+      <span v-else-if="type === 'student'">
+        <img class="avatar"  />
+      </span>
+      <span class="name"> {{item.name}}</span>
+      </div>
+      <div class="fr">
+        <span>{{correctStatus(item)}}</span>
+      </div>
+      </li>
+    </ol>
+  </div>
+  <script type="text/javascript">
+    var demoData = {
+      type:'quiz',
+      list:[
+        {
+          id: '1111',
+          name:'blackk',
+          index:2,
+          'noCorrect':3,
+          total:22
+        }
+        ,{
+          id: '1112',
+          name:'seconed quiz',
+          index:5,
+          'noCorrect':15,
+          total:32
+        }
+      ]
+    };
+
+    var demoVm = new Vue({
+      el: '.testt',
+      data: demoData,
+      computed: {
+
+      },
+      methods: {
+        itemClick: function(){
+          console.log('aaaa')
+        },
+        correctStatus: function(item){
+          if(item['noCorrect'] <= 0){
+            return '全部批完'
+          } else if (item['noCorrect'] < item.total ){
+            return '' + item['noCorrect'] + '人未批'
+          } else {
+            return '全部未批'
+          }
+        }
+      }
+    });
+  </script>
   </body>
 </html>

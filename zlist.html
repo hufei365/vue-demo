@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>zlist</title>
+    <script type="text/javascript" src="vue.js"></script>
+
+  </head>
+  <body>
+
+
+
+
+    <script type="text/x-template" id="avatar">
+      <div><img class="avatar" :src="avatar"></div>
+    </script>
+    <script type="text/x-template" id="li-name">
+      <span class="name">{{ name }}</span>
+    </script>
+    <script type="text/x-template" id="index">
+      <span class="index">{{ index }}</span>
+    </script>
+    <script type="text/x-template" id="l-item">
+      <div>
+      <avatar v-if=" type === 'student' " :avatar="item.avatar"></avatar>
+      <q-index v-else-if=" type === 'quiz' " :index="item.index"></q-index>
+      <name  :name="item.name"></name>
+    </div>
+    </script>
+    <script type="text/javascript">
+    Vue.component('avatar', {
+      template:'#avatar',
+      props: ['avatar']
+    });
+    Vue.component('name', {
+      template:'#li-name',
+      props: ['name']
+    });
+    Vue.component('q-index', {
+      template:'#index',
+      props: ['index']
+    });
+      Vue.component('l-item', {
+        template: '#l-item',
+        props: ['type', 'item'],
+        data: function(){
+            return {}
+        }
+      });
+    </script>
+    <!-- <script type="text/x-template" id="count">
+      <span>
+        <span>{{count}}</span>
+        <span v-if="byPeople">题</span>
+        <span v-else-if="byQuiz">人</span>
+      </span>
+    </script> -->
+    <script type="text/x-template" id="r-item">
+      <span v-if=" status === 'allYes' ">全部批完</span>
+      <span v-else-if=" status === 'notAll' ">{{noCorrect}}{{typeText}}批完</span>
+      <span v-else=" status === 'allNot' ">全部未批</span>
+    </script>
+    <script type="text/javascript">
+    var TYPE_TEXT_MAP = {
+      'student': '题',
+      'quiz':'人'
+    }
+      Vue.component('r-item', {
+        template: '#r-item',
+        props: [ 'type', 'submit', 'noCorrect'],
+        data: function(){
+            return {
+              status:'',
+              typeText: ''
+            }
+        },
+        created: function(){
+          var noCorrect = ~~this.noCorrect;
+          if(this.noCorrect <= 0){
+             this.status = 'allYes';
+          } else if( this.noCorrect == this.submit){
+            this.status = 'allNot';
+          } else {
+            this.status = 'notAll';
+          }
+          this.typeText = TYPE_TEXT_MAP[this.type];
+        }
+      })
+    </script>
+    <script type="text/x-temlate" id="item-li">
+      <li class="item"
+        :id="item.id"
+        :type="type"
+        @click="itemClick">
+      <l-item class="fl" :type="type" :item="item"></l-item>
+      <r-item class="fr"
+        :type="type"
+        :submit="item.submit"
+        :noCorrect="item.noCorrect"></r-item>
+      </li>
+    </script>
+    <script type="text/javascript">
+      Vue.component('item-li', {
+        template: '#item-li',
+        props:[ 'type', 'item'],
+        methods: {
+          itemClick: function(){
+            console.log('aaaa' + this.item.id)
+          }
+        }
+      })
+    </script>
+    <script type="text/x-temlate" id="tab-item">
+      <li :id="item.id" @click="switchE">{{item.name}}</li>
+    </script>
+
+
+    <script type="text/x-template" id="ul-tree">
+      <div class="ulTree">
+        <ul>
+          <item-li :type="type" v-for="item in list" :item="item"></item-li>
+        </ul>
+      </div>
+    </script>
+    <script type="text/javascript">
+      Vue.component('tabli',{
+        template: '#tab-item',
+        props: ['item'],
+        data: function(){
+          return {}
+        },
+        methods: {
+          switchE: function(){
+            console.log( 'current click ele: id=' + this.item.id + ' and name=' + this.item.name)
+          }
+        }
+      })
+
+      Vue.component('ul-tree', {
+        template: '#ul-tree',
+        props: ['type', 'list'],
+        data: function(){
+          return {}
+        }
+      })
+
+
+
+
+    </script>
+    <div class="left-aside">
+      <ul>
+          <tabli v-for="item in navData" :item="item"></tabli>
+      </ul>
+      <ul-tree :list="treeData.list" :type="treeData.type"></ul-tree>
+    </div>
+    <script type="text/javascript">
+    var navData = [
+      {
+        id:'1',
+        name:'按题查看'
+      }
+      ,{
+        id:'2',
+        name:'按人查看'
+      }
+    ];
+
+      var treeData = {
+
+          type:'quiz',
+          list:[
+            {
+              id: '1111',
+              name:'first quiz',
+              avatar:'',
+              index:2,
+              noCorrect:3,
+              submit:22
+            }
+            ,{
+              id: '1112',
+              name:'seconed quiz',
+              avatar:'',
+              index:5,
+              noCorrect:15,
+              submit:32
+            }
+          ]
+
+      };
+
+      var demoVm = new Vue({
+        el: '.left-aside',
+        data: function(){
+          return {
+            'navData':navData,
+            'treeData': treeData
+          }
+        }
+      });
+    </script>
+
+  </body>
+</html>
